@@ -1,0 +1,7 @@
+{
+  "name": "diff-visual",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "kazuma1989 <kazuma.ebina@quipper.com>",
+  "license": "MIT"
+}
