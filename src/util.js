@@ -7,14 +7,14 @@
  */
 export function shallowEqual(a, b) {
   if (a === b) {
-    return true;
+    return true
   }
 
   if (typeof a !== "object" || typeof b !== "object") {
-    return a === b;
+    return a === b
   }
 
-  return Object.keys(a).every((k) => a[k] === b[k]);
+  return Object.keys(a).every(k => a[k] === b[k])
 }
 
 /**
@@ -22,9 +22,9 @@ export function shallowEqual(a, b) {
  * @returns {(e: HTMLElement) => void}
  */
 export function clearStyle(key) {
-  return (e) => {
-    if (!e) return;
+  return e => {
+    if (!e) return
 
-    e.style[key] = null;
-  };
+    e.style[key] = null
+  }
 }

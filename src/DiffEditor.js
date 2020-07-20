@@ -1,12 +1,12 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { css, cx } from "emotion";
-import { html } from "htm/preact";
-import { useEffect, useMemo, useRef } from "preact/hooks";
-import { shallowEqual } from "./util.js";
+import { css, cx } from "emotion"
+import { html } from "htm/preact"
+import { useEffect, useMemo, useRef } from "preact/hooks"
+import { shallowEqual } from "./util.js"
 
-const monaco = globalThis.monaco;
+const monaco = globalThis.monaco
 
 /**
  * @param {{
@@ -34,11 +34,11 @@ export function DiffEditor(props) {
     options,
     className,
     style,
-  } = props;
+  } = props
 
   /** @type {{ current?: HTMLElement }} */
-  const container$ = useRef();
-  const container = container$.current;
+  const container$ = useRef()
+  const container = container$.current
 
   const diffEditor = useMemo(
     () =>
@@ -47,49 +47,49 @@ export function DiffEditor(props) {
             readOnly: true,
           })
         : undefined,
-    [container]
-  );
+    [container],
+  )
 
-  const prevOptions$ = useRef();
+  const prevOptions$ = useRef()
   useEffect(() => {
-    if (!diffEditor || !options) return;
-    if (shallowEqual(options, prevOptions$.current)) return;
+    if (!diffEditor || !options) return
+    if (shallowEqual(options, prevOptions$.current)) return
 
-    prevOptions$.current = options;
+    prevOptions$.current = options
 
-    diffEditor.updateOptions(options);
-  }, [diffEditor, options]);
+    diffEditor.updateOptions(options)
+  }, [diffEditor, options])
 
   useEffect(() => {
-    if (!diffEditor) return;
+    if (!diffEditor) return
 
     const observer = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
-      diffEditor.layout({ width, height });
-    });
-    observer.observe(diffEditor.getDomNode());
+      const { width, height } = entry.contentRect
+      diffEditor.layout({ width, height })
+    })
+    observer.observe(diffEditor.getDomNode())
 
     return () => {
-      observer.disconnect();
+      observer.disconnect()
 
-      diffEditor.dispose();
-    };
-  }, [diffEditor]);
+      diffEditor.dispose()
+    }
+  }, [diffEditor])
 
   useEffect(() => {
-    if (!diffEditor) return;
-    if (!originalSrc || !modifiedSrc) return;
+    if (!diffEditor) return
+    if (!originalSrc || !modifiedSrc) return
 
     Promise.all([
-      fetch(originalSrc).then((r) => r.text()),
-      fetch(modifiedSrc).then((r) => r.text()),
+      fetch(originalSrc).then(r => r.text()),
+      fetch(modifiedSrc).then(r => r.text()),
     ]).then(([originalTxt, modifiedTxt]) => {
       diffEditor.setModel({
         original: monaco.editor.createModel(originalTxt, originalLang),
         modified: monaco.editor.createModel(modifiedTxt, modifiedLang),
-      });
-    });
-  }, [diffEditor, originalSrc, originalLang, modifiedSrc, modifiedLang]);
+      })
+    })
+  }, [diffEditor, originalSrc, originalLang, modifiedSrc, modifiedLang])
 
   return html`
     <div
@@ -99,9 +99,9 @@ export function DiffEditor(props) {
           /* .monaco-sash がはみ出ないように */
           z-index: 0;
         `,
-        className
+        className,
       )}
       style=${style}
     ></div>
-  `;
+  `
 }

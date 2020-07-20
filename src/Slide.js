@@ -1,13 +1,13 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { cx } from "emotion";
-import { html } from "htm/preact";
-import { useEffect, useMemo, useRef, useState } from "preact/hooks";
-import Reveal from "reveal.js/dist/reveal.esm.js";
-import Highlight from "reveal.js/plugin/highlight/highlight.esm.js";
-import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
-import { shallowEqual } from "./util.js";
+import { cx } from "emotion"
+import { html } from "htm/preact"
+import { useEffect, useMemo, useRef, useState } from "preact/hooks"
+import Reveal from "reveal.js/dist/reveal.esm.js"
+import Highlight from "reveal.js/plugin/highlight/highlight.esm.js"
+import Markdown from "reveal.js/plugin/markdown/markdown.esm.js"
+import { shallowEqual } from "./util.js"
 
 /**
  * @typedef {{
@@ -40,73 +40,73 @@ export function Slide(props) {
     onChange: _onChange,
     className,
     style,
-  } = props;
+  } = props
 
-  const indexh$ = useRef(indexh);
-  const onChange$ = useRef(_onChange);
+  const indexh$ = useRef(indexh)
+  const onChange$ = useRef(_onChange)
 
   useEffect(() => {
-    indexh$.current = indexh;
-    onChange$.current = _onChange;
-  });
+    indexh$.current = indexh
+    onChange$.current = _onChange
+  })
 
   /** @type {{ current?: HTMLElement }} */
-  const container$ = useRef();
-  const reveal = useReveal(container$.current);
+  const container$ = useRef()
+  const reveal = useReveal(container$.current)
 
-  const prevOptions$ = useRef();
+  const prevOptions$ = useRef()
   useEffect(() => {
-    if (!reveal || !options) return;
-    if (shallowEqual(options, prevOptions$.current)) return;
+    if (!reveal || !options) return
+    if (shallowEqual(options, prevOptions$.current)) return
 
-    prevOptions$.current = options;
+    prevOptions$.current = options
 
-    reveal.configure(options);
-  }, [reveal, options]);
+    reveal.configure(options)
+  }, [reveal, options])
 
   useEffect(() => {
-    if (!reveal) return;
+    if (!reveal) return
 
     // props.indexh の値と同期する
-    reveal.slide(indexh);
-  }, [reveal, indexh]);
+    reveal.slide(indexh)
+  }, [reveal, indexh])
 
   useEffect(() => {
-    if (!reveal) return;
+    if (!reveal) return
 
     const observer = new ResizeObserver(() => {
-      reveal.layout();
-    });
-    observer.observe(reveal.getViewportElement());
+      reveal.layout()
+    })
+    observer.observe(reveal.getViewportElement())
 
     return () => {
-      observer.disconnect();
-    };
-  }, [reveal]);
+      observer.disconnect()
+    }
+  }, [reveal])
 
-  const forced$ = useRef(false);
+  const forced$ = useRef(false)
   useEffect(() => {
-    if (!reveal) return;
+    if (!reveal) return
 
     const onSlideChanged = ({ indexh: h, indexv: v }) => {
-      if (forced$.current) return;
+      if (forced$.current) return
 
       // props.indexh の値に保ち続ける
-      forced$.current = true;
+      forced$.current = true
       setTimeout(() => {
-        forced$.current = false;
-      }, 50);
-      reveal.slide(indexh$.current, v);
+        forced$.current = false
+      }, 50)
+      reveal.slide(indexh$.current, v)
 
-      const next = { h, v };
-      onChange$.current?.(next);
-    };
-    reveal.on("slidechanged", onSlideChanged);
+      const next = { h, v }
+      onChange$.current?.(next)
+    }
+    reveal.on("slidechanged", onSlideChanged)
 
     return () => {
-      reveal.off("slidechanged", onSlideChanged);
-    };
-  }, [reveal]);
+      reveal.off("slidechanged", onSlideChanged)
+    }
+  }, [reveal])
 
   return html`
     <div ref=${container$} className=${cx(className, "reveal")} style=${style}>
@@ -118,14 +118,14 @@ export function Slide(props) {
         ></div>
       </div>
     </div>
-  `;
+  `
 }
 
 /**
  * @param {HTMLElement} container
  */
 function useReveal(container) {
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(false)
 
   const reveal = useMemo(
     () =>
@@ -136,24 +136,24 @@ function useReveal(container) {
             respondToHashChanges: false,
           })
         : undefined,
-    [container]
-  );
+    [container],
+  )
 
   useEffect(() => {
-    if (!reveal) return;
+    if (!reveal) return
 
     reveal
       .initialize({
         plugins: [Markdown, Highlight],
       })
       .then(() => {
-        setIsReady(true);
-      });
+        setIsReady(true)
+      })
 
     return () => {
-      setIsReady(false);
-    };
-  }, [reveal]);
+      setIsReady(false)
+    }
+  }, [reveal])
 
-  return isReady ? reveal : undefined;
+  return isReady ? reveal : undefined
 }

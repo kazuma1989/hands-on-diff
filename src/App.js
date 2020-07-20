@@ -1,14 +1,14 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { css, cx } from "emotion";
-import { html } from "htm/preact";
-import produce from "immer";
-import { useEffect, useReducer, useState } from "preact/hooks";
-import { DiffEditor } from "./DiffEditor.js";
-import { Iframe } from "./Iframe.js";
-import { Resizable } from "./Resizable.js";
-import { Slide } from "./Slide.js";
+import { css, cx } from "emotion"
+import { html } from "htm/preact"
+import produce from "immer"
+import { useEffect, useReducer, useState } from "preact/hooks"
+import { DiffEditor } from "./DiffEditor.js"
+import { Iframe } from "./Iframe.js"
+import { Resizable } from "./Resizable.js"
+import { Slide } from "./Slide.js"
 
 /**
  * @typedef {{
@@ -54,27 +54,27 @@ const reducer = produce(
   (draft, action) => {
     switch (action?.type) {
       case "set-diff-list": {
-        const { diffList } = action.payload;
+        const { diffList } = action.payload
 
-        draft.diffList = diffList;
-        return;
+        draft.diffList = diffList
+        return
       }
 
       case "set-index": {
-        const { index } = action.payload;
+        const { index } = action.payload
 
         if (0 <= index && index <= draft.diffList.length - 1) {
-          draft.currentIndex = index;
+          draft.currentIndex = index
         }
-        return;
+        return
       }
     }
-  }
-);
+  },
+)
 
 /** @param {State} _ */
 const computed = ({ currentIndex, diffList }) => {
-  const { title, original, modified } = diffList[currentIndex] ?? {};
+  const { title, original, modified } = diffList[currentIndex] ?? {}
 
   return {
     indexh: currentIndex,
@@ -82,10 +82,10 @@ const computed = ({ currentIndex, diffList }) => {
     title,
     original,
     modified,
-  };
-};
+  }
+}
 
-const initialIndex = parseInt(location.hash.slice(1)) || 0;
+const initialIndex = parseInt(location.hash.slice(1)) || 0
 
 /**
  * @param {{
@@ -94,39 +94,39 @@ const initialIndex = parseInt(location.hash.slice(1)) || 0;
   }} props
  */
 export function App(props) {
-  const { className, style } = props;
+  const { className, style } = props
 
   const [_state, dispatch] = useReducer(reducer, {
     currentIndex: initialIndex,
     diffList: [],
-  });
-  const { indexh, hash, title, original, modified } = computed(_state);
+  })
+  const { indexh, hash, title, original, modified } = computed(_state)
 
-  const [isResizing, setIsResizing] = useState(false);
+  const [isResizing, setIsResizing] = useState(false)
 
   useEffect(() => {
     fetch("./diff-list.json")
-      .then((r) => r.json())
-      .then((diffList) => {
+      .then(r => r.json())
+      .then(diffList => {
         dispatch({
           type: "set-diff-list",
           payload: {
             diffList,
           },
-        });
+        })
 
         dispatch({
           type: "set-index",
           payload: {
             index: parseInt(location.hash?.slice(1)),
           },
-        });
-      });
-  }, []);
+        })
+      })
+  }, [])
 
   useEffect(() => {
-    location.hash = hash;
-  }, [hash]);
+    location.hash = hash
+  }, [hash])
 
   useEffect(() => {
     const listener = () => {
@@ -135,17 +135,17 @@ export function App(props) {
         payload: {
           index: parseInt(location.hash?.slice(1)),
         },
-      });
-    };
+      })
+    }
 
-    window.addEventListener("hashchange", listener);
+    window.addEventListener("hashchange", listener)
     return () => {
-      window.removeEventListener("hashchange", listener);
-    };
-  }, []);
+      window.removeEventListener("hashchange", listener)
+    }
+  }, [])
 
-  const [fontSize, setFontSize] = useState(16);
-  const [renderSideBySide, setRenderSideBySide] = useState(true);
+  const [fontSize, setFontSize] = useState(16)
+  const [renderSideBySide, setRenderSideBySide] = useState(true)
 
   return html`
     <div
@@ -170,17 +170,17 @@ export function App(props) {
             user-select: none;
             pointer-events: none;
           `,
-        className
+        className,
       )}
       style=${style}
     >
       <${Resizable}
         sash="right"
         onResizeStart=${() => {
-          setIsResizing(true);
+          setIsResizing(true)
         }}
         onResizeEnd=${() => {
-          setIsResizing(false);
+          setIsResizing(false)
         }}
         className=${css`
           grid-area: slide;
@@ -199,13 +199,13 @@ export function App(props) {
             transitionSpeed: "fast",
             navigationMode: "linear",
           }}
-          onChange=${(next) => {
+          onChange=${next => {
             dispatch({
               type: "set-index",
               payload: {
                 index: next.h,
               },
-            });
+            })
           }}
         />
       <//>
@@ -226,7 +226,7 @@ export function App(props) {
             ? "インライン表示に切り替える"
             : "分割表示に切り替える"}
           onClick=${() => {
-            setRenderSideBySide((v) => !v);
+            setRenderSideBySide(v => !v)
           }}
           className=${css`
             display: flex;
@@ -252,7 +252,7 @@ export function App(props) {
             type="button"
             title="文字を小さくする"
             onClick=${() => {
-              setFontSize((s) => s - 4);
+              setFontSize(s => s - 4)
             }}
             className=${css`
               display: flex;
@@ -265,7 +265,7 @@ export function App(props) {
             type="button"
             title="文字を大きくする"
             onClick=${() => {
-              setFontSize((s) => s + 4);
+              setFontSize(s => s + 4)
             }}
             className=${css`
               display: flex;
@@ -297,10 +297,10 @@ export function App(props) {
       <${Resizable}
         sash="top"
         onResizeStart=${() => {
-          setIsResizing(true);
+          setIsResizing(true)
         }}
         onResizeEnd=${() => {
-          setIsResizing(false);
+          setIsResizing(false)
         }}
         className=${css`
           grid-area: preview;
@@ -313,10 +313,10 @@ export function App(props) {
         <${Resizable}
           sash="right"
           onResizeStart=${() => {
-            setIsResizing(true);
+            setIsResizing(true)
           }}
           onResizeEnd=${() => {
-            setIsResizing(false);
+            setIsResizing(false)
           }}
           className=${css`
             width: 50%;
@@ -368,7 +368,7 @@ export function App(props) {
         </div>
       </div>
     </div>
-  `;
+  `
 }
 
 const iconMinus = html`
@@ -378,7 +378,7 @@ const iconMinus = html`
   >
     <polyline points="8,50 92,50" />
   </svg>
-`;
+`
 
 const iconPlus = html`
   <svg
@@ -388,7 +388,7 @@ const iconPlus = html`
     <polyline points="8,50 92,50" />
     <polyline points="50,8 50,92" />
   </svg>
-`;
+`
 
 const iconSplitVertical = html`
   <svg
@@ -401,7 +401,7 @@ const iconSplitVertical = html`
     <polyline points="14,40 86,40" stroke-dasharray="28 16 28" />
     <polyline points="14,54 86,54" stroke-dasharray="28 16 12 8 8" />
   </svg>
-`;
+`
 
 const iconSplitNone = html`
   <svg
@@ -414,4 +414,4 @@ const iconSplitNone = html`
     <polyline points="14,40 86,40" stroke-dasharray="36 0 36" />
     <polyline points="14,54 86,54" stroke-dasharray="36 0 20 8 8" />
   </svg>
-`;
+`

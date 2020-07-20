@@ -1,10 +1,10 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { css, cx, keyframes } from "emotion";
-import { html } from "htm/preact";
-import { useState } from "preact/hooks";
-import { clearStyle } from "./util.js";
+import { css, cx, keyframes } from "emotion"
+import { html } from "htm/preact"
+import { useState } from "preact/hooks"
+import { clearStyle } from "./util.js"
 
 /**
   * @param {{
@@ -14,10 +14,10 @@ import { clearStyle } from "./util.js";
   }} props
   */
 export function Iframe(props) {
-  const { src: loadingSrc, className, style } = props;
+  const { src: loadingSrc, className, style } = props
 
-  const [activeSrc, setActiveSrc] = useState("");
-  const loading = activeSrc !== loadingSrc;
+  const [activeSrc, setActiveSrc] = useState("")
+  const loading = activeSrc !== loadingSrc
 
   return html`
     <div
@@ -26,7 +26,7 @@ export function Iframe(props) {
           css`
             pointer-events: none;
           `,
-        className
+        className,
       )}
       style=${style}
     >
@@ -64,7 +64,7 @@ export function Iframe(props) {
           key=${loadingSrc}
           src=${loadingSrc}
           onLoad=${() => {
-            setActiveSrc(loadingSrc);
+            setActiveSrc(loadingSrc)
           }}
           className=${css`
             display: none;
@@ -72,7 +72,7 @@ export function Iframe(props) {
         ></iframe>
       `}
     </div>
-  `;
+  `
 }
 
 /**
@@ -82,7 +82,7 @@ export function Iframe(props) {
   }} props
  */
 function Progress(props) {
-  const { className, style } = props;
+  const { className, style } = props
 
   return html`
     <div
@@ -108,9 +108,9 @@ function Progress(props) {
                 }`};
           }
         `,
-        className
+        className,
       )}
       style=${style}
     ></div>
-  `;
+  `
 }

@@ -1,9 +1,9 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { css, cx } from "emotion";
-import { html } from "htm/preact";
-import { useEffect, useRef } from "preact/hooks";
+import { css, cx } from "emotion"
+import { html } from "htm/preact"
+import { useEffect, useRef } from "preact/hooks"
 
 /**
  * @param {{
@@ -16,17 +16,10 @@ import { useEffect, useRef } from "preact/hooks";
   }} props
  */
 export function Resizable(props) {
-  const {
-    sash,
-    onResizeStart,
-    onResizeEnd,
-    className,
-    style,
-    children,
-  } = props;
+  const { sash, onResizeStart, onResizeEnd, className, style, children } = props
 
   /** @type {{ current?: HTMLElement }} */
-  const container$ = useRef();
+  const container$ = useRef()
   const handle$ = useResizable({
     onResizeStart,
     onResize(e) {
@@ -51,40 +44,39 @@ export function Resizable(props) {
       // |   +----------------------------------------------+
       // | pageX                                     |
       // +-------------------------------------------+
-      const container = container$.current;
-      if (!container) return;
+      const container = container$.current
+      if (!container) return
 
       switch (sash) {
         case "top": {
-          const newHeight =
-            container.getBoundingClientRect().bottom - e.clientY;
-          container.style.height = `${newHeight}px`;
-          break;
+          const newHeight = container.getBoundingClientRect().bottom - e.clientY
+          container.style.height = `${newHeight}px`
+          break
         }
 
         case "right": {
-          const newWidth = e.clientX - container.getBoundingClientRect().left;
-          container.style.width = `${newWidth}px`;
-          break;
+          const newWidth = e.clientX - container.getBoundingClientRect().left
+          container.style.width = `${newWidth}px`
+          break
         }
 
         case "bottom": {
-          const newHeight = e.clientY - container.getBoundingClientRect().top;
-          container.style.height = `${newHeight}px`;
-          break;
+          const newHeight = e.clientY - container.getBoundingClientRect().top
+          container.style.height = `${newHeight}px`
+          break
         }
 
         case "left": {
-          const newWidth = container.getBoundingClientRect().right - e.clientX;
-          container.style.width = `${newWidth}px`;
-          break;
+          const newWidth = container.getBoundingClientRect().right - e.clientX
+          container.style.width = `${newWidth}px`
+          break
         }
       }
     },
     onResizeEnd,
-  });
+  })
 
-  const clickCount$ = useRef(0);
+  const clickCount$ = useRef(0)
 
   return html`
     <div
@@ -93,34 +85,34 @@ export function Resizable(props) {
         css`
           position: relative;
         `,
-        className
+        className,
       )}
       style=${style}
     >
       <div
         ref=${handle$}
         onMouseDown=${() => {
-          clickCount$.current += 1;
+          clickCount$.current += 1
           setTimeout(() => {
-            clickCount$.current -= 1;
-          }, 400);
+            clickCount$.current -= 1
+          }, 400)
 
-          if (clickCount$.current !== 2) return;
+          if (clickCount$.current !== 2) return
 
-          const container = container$.current;
-          if (!container) return;
+          const container = container$.current
+          if (!container) return
 
           switch (sash) {
             case "top":
             case "bottom": {
-              container.style.height = null;
-              break;
+              container.style.height = null
+              break
             }
 
             case "right":
             case "left": {
-              container.style.width = null;
-              break;
+              container.style.width = null
+              break
             }
           }
         }}
@@ -156,13 +148,13 @@ export function Resizable(props) {
               width: 4px;
               height: 100%;
               left: -2px;
-            `
+            `,
         )}
       ></div>
 
       ${children}
     </div>
-  `;
+  `
 }
 
 /**
@@ -173,64 +165,64 @@ export function Resizable(props) {
   }} props
  */
 export function useResizable(props) {
-  const onResizeStart$ = useRef(props.onResizeStart);
-  const onResize$ = useRef(props.onResize);
-  const onResizeEnd$ = useRef(props.onResizeEnd);
+  const onResizeStart$ = useRef(props.onResizeStart)
+  const onResize$ = useRef(props.onResize)
+  const onResizeEnd$ = useRef(props.onResizeEnd)
 
   useEffect(() => {
-    onResizeStart$.current = props.onResizeStart;
-    onResize$.current = props.onResize;
-    onResizeEnd$.current = props.onResizeEnd;
-  });
+    onResizeStart$.current = props.onResizeStart
+    onResize$.current = props.onResize
+    onResizeEnd$.current = props.onResizeEnd
+  })
 
-  const isResizing$ = useRef(false);
+  const isResizing$ = useRef(false)
 
   /** @type {{ current?: HTMLElement }} */
-  const handle$ = useRef();
-  const handle = handle$.current;
+  const handle$ = useRef()
+  const handle = handle$.current
   useEffect(() => {
-    const view = handle?.ownerDocument?.defaultView;
-    if (!handle || !view) return;
+    const view = handle?.ownerDocument?.defaultView
+    if (!handle || !view) return
 
     const resizeStart = () => {
-      if (isResizing$.current) return;
+      if (isResizing$.current) return
 
-      isResizing$.current = true;
+      isResizing$.current = true
 
-      onResizeStart$.current?.();
-    };
+      onResizeStart$.current?.()
+    }
 
     /** @param {MouseEvent} e */
-    const resize = (e) => {
-      if (!isResizing$.current) return;
+    const resize = e => {
+      if (!isResizing$.current) return
 
-      onResize$.current?.(e);
-    };
+      onResize$.current?.(e)
+    }
 
     const resizeEnd = () => {
-      if (!isResizing$.current) return;
+      if (!isResizing$.current) return
 
-      isResizing$.current = false;
+      isResizing$.current = false
 
-      onResizeEnd$.current?.();
-    };
+      onResizeEnd$.current?.()
+    }
 
-    handle.addEventListener("mousedown", resizeStart);
+    handle.addEventListener("mousedown", resizeStart)
 
-    view.addEventListener("mousemove", resize);
+    view.addEventListener("mousemove", resize)
 
-    view.addEventListener("mouseup", resizeEnd);
-    view.addEventListener("mouseleave", resizeEnd);
+    view.addEventListener("mouseup", resizeEnd)
+    view.addEventListener("mouseleave", resizeEnd)
 
     return () => {
-      handle.removeEventListener("mousedown", resizeStart);
+      handle.removeEventListener("mousedown", resizeStart)
 
-      view.removeEventListener("mousemove", resize);
+      view.removeEventListener("mousemove", resize)
 
-      view.removeEventListener("mouseup", resizeEnd);
-      view.removeEventListener("mouseleave", resizeEnd);
-    };
-  }, [handle]);
+      view.removeEventListener("mouseup", resizeEnd)
+      view.removeEventListener("mouseleave", resizeEnd)
+    }
+  }, [handle])
 
-  return handle$;
+  return handle$
 }
