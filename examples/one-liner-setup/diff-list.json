@@ -1,0 +1,28 @@
+[
+  {
+    "title": "index.html",
+    "original": {
+      "src": "./part_1/index.html",
+      "lang": "html",
+      "preview": "./part_1/"
+    },
+    "modified": {
+      "src": "./part_2/index.html",
+      "lang": "html",
+      "preview": "./part_2/"
+    }
+  },
+  {
+    "title": "index.html",
+    "original": {
+      "src": "./part_2/index.html",
+      "lang": "html",
+      "preview": "./part_2/"
+    },
+    "modified": {
+      "src": "./part_3/index.html",
+      "lang": "html",
+      "preview": "./part_3/"
+    }
+  }
+]
