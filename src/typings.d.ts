@@ -15,6 +15,8 @@ declare module "immer" {
   ): (value: T, ...args: P) => T
 }
 
+declare module "monaco-editor/*"
+
 declare module "preact" {
   export const render: Function
 }

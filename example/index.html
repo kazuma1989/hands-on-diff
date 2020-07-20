@@ -5,6 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
+    <link
+      rel="stylesheet"
+      crossorigin="anonymous"
+      href="https://unpkg.com/ress/dist/ress.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/monaco-editor/min/vs/editor/editor.main.css"
+    />
+    <link
+      rel="stylesheet"
+      crossorigin="anonymous"
+      href="https://unpkg.com/reveal.js/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      crossorigin="anonymous"
+      href="https://unpkg.com/reveal.js/dist/theme/white.css"
+    />
+    <link
+      rel="stylesheet"
+      crossorigin="anonymous"
+      href="https://unpkg.com/highlight.js/styles/vs.css"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        overscroll-behavior: none;
+      }
+    </style>
+
     <script
       async
       crossorigin="anonymous"
@@ -17,6 +49,7 @@
           "htm": "https://unpkg.com/htm/dist/htm.module.js",
           "htm/preact": "https://unpkg.com/htm/preact/index.module.js",
           "immer": "https://cdn.pika.dev/immer",
+          "monaco-editor/": "https://unpkg.com/monaco-editor@0.20.0/",
           "preact": "https://cdn.pika.dev/preact",
           "preact/": "https://cdn.pika.dev/preact/",
           "reveal.js/": "https://cdn.pika.dev/reveal.js/"
@@ -24,7 +57,24 @@
       }
     </script>
 
-    <script type="module-shim" src="../src/render.js"></script>
+    <script>
+      // https://github.com/microsoft/monaco-editor/blob/v0.20.0/docs/integrate-amd-cross.md
+      self.MonacoEnvironment = {
+        getWorkerUrl(workerId, label) {
+          return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+            self.MonacoEnvironment = {
+              baseUrl: "https://unpkg.com/monaco-editor/min/",
+            }
+            importScripts("https://unpkg.com/monaco-editor/min/vs/base/worker/workerMain.js")
+          `)}`
+        },
+      }
+    </script>
+    <script type="module-shim">
+      import { render } from "../src/index.js"
+
+      render(document.body)
+    </script>
   </head>
 
   <body></body>
