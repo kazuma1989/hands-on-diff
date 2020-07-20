@@ -1,11 +1,9 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { css, cx, keyframes } from "https://cdn.pika.dev/emotion";
-import {
-  html,
-  useState,
-} from "https://cdn.pika.dev/htm/preact/standalone.module.js";
+import { css, cx, keyframes } from "emotion";
+import { html } from "htm/preact";
+import { useState } from "preact/hooks";
 import { clearStyle } from "./util.js";
 
 /**

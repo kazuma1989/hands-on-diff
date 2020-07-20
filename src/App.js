@@ -1,14 +1,10 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { css, cx } from "https://cdn.pika.dev/emotion";
-import {
-  html,
-  useEffect,
-  useReducer,
-  useState,
-} from "https://cdn.pika.dev/htm/preact/standalone.module.js";
-import produce from "https://cdn.pika.dev/immer";
+import { css, cx } from "emotion";
+import { html } from "htm/preact";
+import produce from "immer";
+import { useEffect, useReducer, useState } from "preact/hooks";
 import { DiffEditor } from "./DiffEditor.js";
 import { Iframe } from "./Iframe.js";
 import { Resizable } from "./Resizable.js";

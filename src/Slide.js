@@ -1,17 +1,12 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { cx } from "https://cdn.pika.dev/emotion";
-import {
-  html,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "https://cdn.pika.dev/htm/preact/standalone.module.js";
-import Reveal from "https://unpkg.com/reveal.js/dist/reveal.esm.js";
-import Highlight from "https://unpkg.com/reveal.js/plugin/highlight/highlight.esm.js";
-import Markdown from "https://unpkg.com/reveal.js/plugin/markdown/markdown.esm.js";
+import { cx } from "emotion";
+import { html } from "htm/preact";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import Reveal from "reveal.js/dist/reveal.esm.js";
+import Highlight from "reveal.js/plugin/highlight/highlight.esm.js";
+import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
 import { shallowEqual } from "./util.js";
 
 /**

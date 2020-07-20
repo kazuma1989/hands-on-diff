@@ -1,14 +1,25 @@
-declare module "https://*";
+declare module "emotion" {
+  export const css: Function;
+  export const cx: Function;
+  export const injectGlobal: Function;
+  export const keyframes: Function;
+}
 
-declare module "https://cdn.pika.dev/immer" {
+declare module "htm/preact" {
+  export const html: Function;
+}
+
+declare module "immer" {
   export default function produce<T, P extends any[]>(
     fn: (draft: T, ...args: P) => void
   ): (value: T, ...args: P) => T;
 }
 
-declare module "https://cdn.pika.dev/htm/preact/standalone.module.js" {
-  export const html: Function;
+declare module "preact" {
   export const render: Function;
+}
+
+declare module "preact/hooks" {
   export const useEffect: Function;
 
   export function useMemo<T>(factory: () => T, deps: any[]): T;
@@ -28,6 +39,8 @@ declare module "https://cdn.pika.dev/htm/preact/standalone.module.js" {
     initialState?: S
   ): [S, (action: A) => void];
 }
+
+declare module "reveal.js/*";
 
 /**
  * @see https://gist.github.com/strothj/708afcf4f01dd04de8f49c92e88093c3

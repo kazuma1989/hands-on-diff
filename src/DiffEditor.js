@@ -1,13 +1,9 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
-import { css, cx } from "https://cdn.pika.dev/emotion";
-import {
-  html,
-  useEffect,
-  useMemo,
-  useRef,
-} from "https://cdn.pika.dev/htm/preact/standalone.module.js";
+import { css, cx } from "emotion";
+import { html } from "htm/preact";
+import { useEffect, useMemo, useRef } from "preact/hooks";
 import { shallowEqual } from "./util.js";
 
 const monaco = globalThis.monaco;

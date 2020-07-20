@@ -10,7 +10,7 @@ Promise.all(
   ].map((href) => appendStylesheet(href))
 );
 
-import("https://cdn.pika.dev/emotion").then(({ injectGlobal: css }) => {
+import("emotion").then(({ injectGlobal: css }) => {
   css`
     html,
     body {
