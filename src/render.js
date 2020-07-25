@@ -11,23 +11,7 @@ Promise.all(
     "https://unpkg.com/reveal.js/dist/reveal.css",
     "https://unpkg.com/reveal.js/dist/theme/white.css",
     "https://unpkg.com/highlight.js/styles/vs.css",
-  ].map(href => appendStylesheet(href)),
-)
-
-appendEmbeddedScript(
-  "importmap-shim",
-  JSON.stringify({
-    imports: {
-      emotion: "https://cdn.pika.dev/emotion",
-      htm: "https://unpkg.com/htm/dist/htm.module.js",
-      "htm/preact": "https://unpkg.com/htm/preact/index.module.js",
-      immer: "https://cdn.pika.dev/immer",
-      "monaco-editor/": "https://unpkg.com/monaco-editor@0.20.0/",
-      preact: "https://cdn.pika.dev/preact",
-      "preact/": "https://cdn.pika.dev/preact/",
-      "reveal.js/": "https://cdn.pika.dev/reveal.js/",
-    },
-  }),
+  ].map(href => appendStylesheet({ href })),
 )
 
 // https://github.com/microsoft/monaco-editor/blob/v0.20.0/docs/integrate-amd-cross.md
@@ -35,19 +19,24 @@ appendEmbeddedScript(
 self.MonacoEnvironment = {
   getWorkerUrl(workerId, label) {
     return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-        self.MonacoEnvironment = {
-          baseUrl: "https://unpkg.com/monaco-editor/min/",
-        }
-        importScripts("https://unpkg.com/monaco-editor/min/vs/base/worker/workerMain.js")
-      `)}`
+      self.MonacoEnvironment = {
+        baseUrl: "https://unpkg.com/monaco-editor/min/",
+      }
+      importScripts("https://unpkg.com/monaco-editor/min/vs/base/worker/workerMain.js")
+    `)}`
   },
 }
 
-Promise.all(
-  [
-    "https://unpkg.com/es-module-shims@0.4.7/dist/es-module-shims.min.js",
-  ].map(src => appendScript(src)),
-).then(() => {
+Promise.all([
+  appendScript({
+    src: `${cdnOrigin}/src/import-map.json`,
+    type: "importmap-shim",
+  }),
+  appendScript({
+    src: "https://unpkg.com/es-module-shims@0.4.7/dist/es-module-shims.min.js",
+    async: true,
+  }),
+]).then(() => {
   // @ts-ignore
   self.importShim(`${cdnOrigin}/src/index.js`).then(({ render }) => {
     render(document.body)
@@ -55,43 +44,47 @@ Promise.all(
 })
 
 /**
- * @param {string} src
+ * @param {{
+    src: string
+    type?: string
+    async?: boolean
+  }} _
  * @param {HTMLElement} target
  */
-async function appendScript(src, target = document.head) {
+async function appendScript({ src, type, async }, target = document.head) {
   const script = document.createElement("script")
   script.crossOrigin = "anonymous"
   script.src = src
+  if (type) {
+    script.type = type
+  }
+  script.async = async
 
   target.appendChild(script)
 
-  return new Promise((resolve, reject) => {
-    setTimeout(reject, 20_000)
+  switch (type) {
+    case undefined:
+    case "module": {
+      return new Promise((resolve, reject) => {
+        setTimeout(reject, 20_000)
 
-    script.addEventListener("load", resolve)
-  })
+        script.addEventListener("load", resolve)
+      })
+    }
+
+    default: {
+      return Promise.resolve()
+    }
+  }
 }
 
 /**
- * @param {string} type
- * @param {string} textContent
+ * @param {{
+    href: string
+  }} _
  * @param {HTMLElement} target
  */
-async function appendEmbeddedScript(type, textContent, target = document.head) {
-  const script = document.createElement("script")
-  script.type = type
-  script.textContent = textContent
-
-  target.appendChild(script)
-
-  return Promise.resolve()
-}
-
-/**
- * @param {string} href
- * @param {HTMLElement} target
- */
-async function appendStylesheet(href, target = document.head) {
+async function appendStylesheet({ href }, target = document.head) {
   const link = document.createElement("link")
   link.crossOrigin = "anonymous"
   link.rel = "stylesheet"

@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "emotion": "https://cdn.pika.dev/emotion",
+    "htm": "https://unpkg.com/htm/dist/htm.module.js",
+    "htm/preact": "https://unpkg.com/htm/preact/index.module.js",
+    "immer": "https://cdn.pika.dev/immer",
+    "monaco-editor/": "https://unpkg.com/monaco-editor@0.20.0/",
+    "preact": "https://cdn.pika.dev/preact",
+    "preact/": "https://cdn.pika.dev/preact/",
+    "reveal.js/": "https://cdn.pika.dev/reveal.js/"
+  }
+}
