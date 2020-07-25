@@ -1,6 +1,11 @@
 // @ts-check
 /// <reference path="./typings.d.ts" />
 
+import MonacoEnvironment from "./monaco-environment.js"
+
+// @ts-ignore
+self.MonacoEnvironment = MonacoEnvironment
+
 // @ts-ignore
 const { origin: cdnOrigin } = new URL(import.meta.url)
 
@@ -13,19 +18,6 @@ Promise.all(
     "https://unpkg.com/highlight.js/styles/vs.css",
   ].map(href => appendStylesheet({ href })),
 )
-
-// https://github.com/microsoft/monaco-editor/blob/v0.20.0/docs/integrate-amd-cross.md
-// @ts-ignore
-self.MonacoEnvironment = {
-  getWorkerUrl(workerId, label) {
-    return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-      self.MonacoEnvironment = {
-        baseUrl: "https://unpkg.com/monaco-editor/min/",
-      }
-      importScripts("https://unpkg.com/monaco-editor/min/vs/base/worker/workerMain.js")
-    `)}`
-  },
-}
 
 Promise.all([
   appendScript({

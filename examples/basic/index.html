@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="http://lvh.me/src/base.css" />
     <link
       rel="stylesheet"
+      crossorigin="anonymous"
       href="https://unpkg.com/monaco-editor/min/vs/editor/editor.main.css"
     />
     <link
@@ -35,23 +36,11 @@
       type="importmap-shim"
       src="http://lvh.me/src/import-map.json"
     ></script>
-
-    <script>
-      // https://github.com/microsoft/monaco-editor/blob/v0.20.0/docs/integrate-amd-cross.md
-      self.MonacoEnvironment = {
-        getWorkerUrl(workerId, label) {
-          return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-            self.MonacoEnvironment = {
-              baseUrl: "https://unpkg.com/monaco-editor/min/",
-            }
-            importScripts("https://unpkg.com/monaco-editor/min/vs/base/worker/workerMain.js")
-          `)}`
-        },
-      }
-    </script>
     <script type="module-shim">
+      import MonacoEnvironment from "http://lvh.me/src/monaco-environment.js"
       import { render } from "http://lvh.me/src/index.js"
 
+      self.MonacoEnvironment = MonacoEnvironment
       render(document.body)
     </script>
   </head>
