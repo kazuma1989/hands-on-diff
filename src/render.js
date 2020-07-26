@@ -3,15 +3,14 @@
 
 import MonacoEnvironment from "./monaco-environment.js"
 
-// @ts-ignore
 self.MonacoEnvironment = MonacoEnvironment
 
 // @ts-ignore
-const { origin: cdnOrigin } = new URL(import.meta.url)
+const cdnPath = import.meta.url.replace(/\/[^/]+$/, "")
 
 Promise.all(
   [
-    `${cdnOrigin}/src/base.css`,
+    `${cdnPath}/base.css`,
     "https://unpkg.com/monaco-editor/min/vs/editor/editor.main.css",
     "https://unpkg.com/reveal.js/dist/reveal.css",
     "https://unpkg.com/reveal.js/dist/theme/white.css",
@@ -21,16 +20,15 @@ Promise.all(
 
 Promise.all([
   appendScript({
-    src: `${cdnOrigin}/src/import-map.json`,
-    type: "importmap-shim",
+    async: true,
+    src: "https://unpkg.com/es-module-shims@0.4.7/dist/es-module-shims.min.js",
   }),
   appendScript({
-    src: "https://unpkg.com/es-module-shims@0.4.7/dist/es-module-shims.min.js",
-    async: true,
+    type: "importmap-shim",
+    src: `${cdnPath}/import-map.json`,
   }),
 ]).then(() => {
-  // @ts-ignore
-  self.importShim(`${cdnOrigin}/src/index.js`).then(({ render }) => {
+  self.importShim("hands-on-diff/src/index.js").then(({ render }) => {
     render(document.body)
   })
 })

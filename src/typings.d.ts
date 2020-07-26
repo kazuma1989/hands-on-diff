@@ -44,6 +44,12 @@ declare module "preact/hooks" {
 
 declare module "reveal.js/*"
 
+declare async function importShim(path: string)
+
+declare interface Window {
+  MonacoEnvironment: any
+}
+
 /**
  * @see https://gist.github.com/strothj/708afcf4f01dd04de8f49c92e88093c3
  */
