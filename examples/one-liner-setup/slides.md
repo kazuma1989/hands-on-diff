@@ -11,7 +11,7 @@ In your index.html:
 ```html
 <script
   type="module"
-  src="https://cdn.jsdelivr.net/gh/kazuma1989/hands-on-diff@0.0.1/src/render.js"
+  src="https://cdn.jsdelivr.net/gh/kazuma1989/hands-on-diff@v0.0.3/src/render.js"
 ></script>
 ```
 
