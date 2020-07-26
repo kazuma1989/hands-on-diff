@@ -1,7 +1,7 @@
 {
   "imports": {
     "emotion": "https://cdn.skypack.dev/emotion@10.0.27",
-    "hands-on-diff/": "https://cdn.jsdelivr.net/gh/kazuma1989/hands-on-diff@v0.0.3/",
+    "hands-on-diff/": "https://unpkg.com/hands-on-diff@0.0.4/",
     "htm": "https://unpkg.com/htm@3.0.4/dist/htm.module.js",
     "htm/preact": "https://unpkg.com/htm@3.0.4/preact/index.module.js",
     "immer": "https://cdn.skypack.dev/immer@7.0.7",
