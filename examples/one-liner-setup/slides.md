@@ -1,4 +1,4 @@
-# How to use Diff Visual
+# How to use Hands-on Diff
 
 [@kazuma1989](https://github.com/kazuma1989/)
 
@@ -11,7 +11,7 @@ In your index.html:
 ```html
 <script
   type="module"
-  src="https://cdn.jsdelivr.net/gh/kazuma1989/diff-visual/src/render.js"
+  src="https://cdn.jsdelivr.net/gh/kazuma1989/hands-on-diff/src/render.js"
 ></script>
 ```
 

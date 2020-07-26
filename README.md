@@ -1,4 +1,6 @@
-# Diff Visual
+# Hands-on Diff
+
+A document viewer suitable for hands-on programming trainings.
 
 See [example](./examples/basic/index.html)
 
