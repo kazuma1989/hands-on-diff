@@ -15,7 +15,11 @@ declare module "immer" {
   ): (value: T, ...args: P) => T
 }
 
+declare module "monaco-editor"
 declare module "monaco-editor/*"
+interface Window {
+  MonacoEnvironment: any
+}
 
 declare module "preact" {
   export const render: Function
@@ -44,11 +48,10 @@ declare module "preact/hooks" {
 
 declare module "reveal.js/*"
 
+/**
+ * @see https://github.com/guybedford/es-module-shims/blob/0.5.0/README.md#dynamic-import
+ */
 declare async function importShim(path: string)
-
-declare interface Window {
-  MonacoEnvironment: any
-}
 
 /**
  * @see https://gist.github.com/strothj/708afcf4f01dd04de8f49c92e88093c3

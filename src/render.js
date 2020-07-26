@@ -11,10 +11,10 @@ const cdnPath = import.meta.url.replace(/\/[^/]+$/, "")
 Promise.all(
   [
     `${cdnPath}/base.css`,
-    "https://unpkg.com/monaco-editor/min/vs/editor/editor.main.css",
-    "https://unpkg.com/reveal.js/dist/reveal.css",
-    "https://unpkg.com/reveal.js/dist/theme/white.css",
-    "https://unpkg.com/highlight.js/styles/vs.css",
+    "https://unpkg.com/monaco-editor@0.20.0/min/vs/editor/editor.main.css",
+    "https://unpkg.com/reveal.js@4.0.2/dist/reveal.css",
+    "https://unpkg.com/reveal.js@4.0.2/dist/theme/white.css",
+    "https://unpkg.com/highlight.js@10.1.2/styles/vs.css",
   ].map(href => appendStylesheet({ href })),
 )
 

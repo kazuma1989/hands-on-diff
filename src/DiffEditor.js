@@ -3,7 +3,7 @@
 
 import { css, cx } from "emotion"
 import { html } from "htm/preact"
-import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js"
+import * as monaco from "monaco-editor"
 import { useEffect, useMemo, useRef } from "preact/hooks"
 import { shallowEqual } from "./util.js"
 

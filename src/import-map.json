@@ -1,13 +1,14 @@
 {
   "imports": {
-    "emotion": "https://cdn.skypack.dev/emotion",
+    "emotion": "https://cdn.skypack.dev/emotion@10.0.27",
     "hands-on-diff/": "https://cdn.jsdelivr.net/gh/kazuma1989/hands-on-diff@0.0.1/",
-    "htm": "https://unpkg.com/htm/dist/htm.module.js",
-    "htm/preact": "https://unpkg.com/htm/preact/index.module.js",
-    "immer": "https://cdn.skypack.dev/immer",
+    "htm": "https://unpkg.com/htm@3.0.4/dist/htm.module.js",
+    "htm/preact": "https://unpkg.com/htm@3.0.4/preact/index.module.js",
+    "immer": "https://cdn.skypack.dev/immer@7.0.7",
+    "monaco-editor": "https://unpkg.com/monaco-editor@0.20.0/esm/vs/editor/editor.main.js",
     "monaco-editor/": "https://unpkg.com/monaco-editor@0.20.0/",
-    "preact": "https://cdn.skypack.dev/preact",
-    "preact/": "https://cdn.skypack.dev/preact/",
-    "reveal.js/": "https://cdn.skypack.dev/reveal.js/"
+    "preact": "https://cdn.skypack.dev/preact@10.4.6",
+    "preact/": "https://cdn.skypack.dev/preact@10.4.6/",
+    "reveal.js/": "https://cdn.skypack.dev/reveal.js@4.0.2/"
   }
 }
